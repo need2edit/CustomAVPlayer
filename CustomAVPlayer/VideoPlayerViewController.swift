@@ -11,8 +11,12 @@ import AVFoundation
 
 class VideoPlayerViewController: UIViewController {
 
+    // Playback
     let avPlayer = AVPlayer()
     var avPlayerLayer: AVPlayerLayer!
+    
+    // Controlling Playback
+    let invisibleButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +26,12 @@ class VideoPlayerViewController: UIViewController {
         // direct its visual output. Without it, the user will see nothing.
         avPlayerLayer = AVPlayerLayer(player: avPlayer)
         view.layer.insertSublayer(avPlayerLayer, at: 0)
+        
+        
+        view.addSubview(invisibleButton)
+        invisibleButton.addTarget(self, action: #selector(invisibleButtonTapped), for: .touchUpInside)
+        
+        
         
         let url = URL(string: "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8")
         let playerItem = AVPlayerItem(url: url!)
@@ -38,6 +48,11 @@ class VideoPlayerViewController: UIViewController {
         
         // Layout subviews manually
         avPlayerLayer.frame = view.bounds
+        
+        // We're adding a button that is over the whole screen
+        // You might want to handle this with gesture recognizers
+        // or format this in a branded / visible way.
+        invisibleButton.frame = view.bounds
     }
     
     // Force the view into landscape mode (which is how most video media is consumed.)
@@ -45,4 +60,16 @@ class VideoPlayerViewController: UIViewController {
         return .landscape
     }
 
+}
+
+
+extension VideoPlayerViewController {
+    
+    private var playerIsPlaying: Bool {
+        return avPlayer.rate > 0
+    }
+    
+    func invisibleButtonTapped(sender: UIButton) {
+        playerIsPlaying ? avPlayer.pause() : avPlayer.play()
+    }
 }
