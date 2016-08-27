@@ -27,11 +27,9 @@ class VideoPlayerViewController: UIViewController {
         avPlayerLayer = AVPlayerLayer(player: avPlayer)
         view.layer.insertSublayer(avPlayerLayer, at: 0)
         
-        
+        // Add the button on top of the video view
         view.addSubview(invisibleButton)
         invisibleButton.addTarget(self, action: #selector(invisibleButtonTapped), for: .touchUpInside)
-        
-        
         
         let url = URL(string: "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8")
         let playerItem = AVPlayerItem(url: url!)
