@@ -191,8 +191,11 @@ extension VideoPlayerViewController {
 // MARK: - Seeking
 extension VideoPlayerViewController {
     
+    func timeRemaining(elapsedTime: Float64) -> Float64 {
+        return videoDuration - elapsedTime
+    }
+    
     func progress(elapsedTime: Float64) -> Float {
-        let timeRemaining = videoDuration - elapsedTime
         return Float(elapsedTime / videoDuration)
     }
     
